@@ -9,13 +9,16 @@ axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 const employeeId = "570562";
 
 const employees = {
-  ["messengerUserId"]: {
+  ["293746592843659284"]: {
     employeeId: "",
     employeeName: "Matt"
   }
 };
 
+// employees[req.params["messenger user id"]].employeeId
+
 app.get("/mynextschedule", async function(req, res) {
+  console.log(req.params["messenger user id"]);
   const today = moment().format("YYYY-MM-DD");
   const sevenDaysFromToday = moment()
     .add(7, "days")
