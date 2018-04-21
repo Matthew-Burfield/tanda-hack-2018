@@ -149,32 +149,38 @@ app.get("/leavebalance", async function(req, res) {
       //silently fail like a ninja
     });
   let messages;
-  
+
   if (leaveBalanceInfo.length === 0) {
-    messages = [{
-      text: "Mate, you're not even set up in the system yet. Get your boss to set you up!",
-    }]
+    messages = [
+      {
+        text:
+          "Mate, you're not even set up in the system yet. Get your boss to set you up!"
+      }
+    ];
   } else {
     const balance = leaveBalanceInfo[0];
     if (balance.hours > 7.8) {
       const days = Math.floor(balance.hours / 7.8);
-      messages = [{
-        text: `You've got ${days} days of ${balance.leave_type}${
-          days > 7 ? ", take a holiday bro!" : ""
-        }`,
-      }]
-    } else {
-      messages = [{
-        text: "You've got no annual leave left",
+      messages = [
         {
-          "attachment": {
-            "type": "image",
-            "payload": {
-              "url": "https://raw.githubusercontent.com/benaitcheson/benaitcheson/master/images/tenor.gif"
+          text: `You've got ${days} days of ${balance.leave_type}${
+            days > 7 ? ", take a holiday bro!" : ""
+          }`
+        }
+      ];
+    } else {
+      messages = [
+        {
+          text: "You've got no annual leave left",
+          attachment: {
+            type: "image",
+            payload: {
+              url:
+                "https://raw.githubusercontent.com/benaitcheson/benaitcheson/master/images/tenor.gif"
             }
           }
         }
-      }]
+      ];
     }
   }
   res.json({
