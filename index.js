@@ -141,7 +141,6 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
     messages.push({
       text: "LET IT RAIN!!"
     });
-    ske;
     messages.push({
       attachment: {
         type: "image",
