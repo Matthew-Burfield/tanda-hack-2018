@@ -161,7 +161,7 @@ app.get("/leavebalance", async function(req, res) {
       messages = [{
         text: `You've got ${days} days of ${balance.leave_type}${
           days > 7 ? ", take a holiday bro!" : ""
-        }`;
+        }`,
       }]
     } else {
       messages = [{
