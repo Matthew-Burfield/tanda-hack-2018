@@ -8,33 +8,12 @@ const token =
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 const employeeId = "570562";
 
-app.get("/", function(req, res) {
-  res.send("Hello World!");
-});
-
-// app.get("/currentroster", async function(req, res) {
-//   console.log(req.query);
-//   const rosterInfo = await axios
-//     .get("https://my.tanda.co/api/v2/rosters/current?show_costs=true")
-//     .then(response => response.data)
-//     .catch(err => {
-//       //silently fail like a ninja
-//     });
-//   res.json({
-//     messages: [
-//       {
-//         text: `Current roster starts on ${rosterInfo.start} and finishes on ${
-//           rosterInfo.finish
-//         }`
-//       },
-//       {
-//         text: `There are ${
-//           rosterInfo.schedules.length
-//         } schedules on this roster at a cost of ${rosterInfo.cost}`
-//       }
-//     ]
-//   });
-// });
+const employees = {
+  ["messengerUserId"]: {
+    employeeId: "",
+    employeeName: "Matt"
+  }
+};
 
 app.get("/mynextschedule", async function(req, res) {
   const today = moment().format("YYYY-MM-DD");
@@ -103,19 +82,30 @@ app.get("/myshiftsforthisweek", async function(req, res) {
 });
 
 app.get("/howmuchamigettingpaid", async function(req, res) {
-  const timesheetInfo = await axios
+  // req.param['messenger user id'];
+  const mondayThisWeek = moment()
+    .isoWeekday(1)
+    .format("YYYY-MM-DD");
+  const sundayThisWeek = moment()
+    .isoWeekday(7)
+    .format("YYYY-MM-DD");
+  const scheduleInfo = await axios
     .get(
-      `https://my.tanda.co/api/v2/timesheets/for/${employeeId}/current?show_costs=true&show_award_interpretation=true&approved_only=true`
+      `https://my.tanda.co/api/v2/schedules?user_ids=${employeeId}&from=${mondayThisWeek}&to=${sundayThisWeek}&show_costs=true&include_names=false`
     )
-    // .then(response => response.data)
+    .then(response => response.data)
     .catch(err => {
       //silently fail like a ninja
     });
-  debugger;
+  const payThisWeek = scheduleInfo.reduce((total, schedule) => {
+    return total + schedule.cost;
+  }, 0);
   res.json({
     messages: [
       {
-        text
+        text: `Based on your rostered schedule this week, you\'re going to be paid $${Math.round(
+          payThisWeek * 100
+        ) / 100}!`
       }
     ]
   });
