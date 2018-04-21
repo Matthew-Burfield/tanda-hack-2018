@@ -52,7 +52,7 @@ app.get("/mynextschedule", async function(req, res) {
     });
   const nextShiftStart = moment(scheduleInfo[0].start * 1000).utc();
   const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utc();
-  console.log(nextShiftStart.zone());
+  console.log(nextShiftStart.utcOffset());
   res.json({
     messages: [
       {
