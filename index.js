@@ -171,7 +171,9 @@ app.get("/leavebalance", async function(req, res) {
     } else {
       messages = [
         {
-          text: "You've got no annual leave left",
+          text: "You've got no annual leave left"
+        },
+        {
           attachment: {
             type: "image",
             payload: {
