@@ -79,7 +79,7 @@ app.get("/myshiftsforthisweek", async function(req, res) {
     });
   let text = "";
   if (scheduleInfo.length === 0) {
-    text = "Aww man, you've got no shifts this week!";
+    text = "Aww man, you've got no shifts this week :(";
   } else {
     text = scheduleInfo.reduce((string, shift) => {
       const start = moment(shift.start * 1000).utcOffset(600);
@@ -88,11 +88,30 @@ app.get("/myshiftsforthisweek", async function(req, res) {
         string +
         `${moment(start).format("dddd")}: ${moment(start).format(
           "h:mma"
-        )} - ${moment(start).format("h:mma")}\n`
+        )} - ${moment(finish).format("h:mma")}\n`
       );
     }, "Yo! Your shifts this week are:\n");
     text = text.slice(0, -1);
   }
+  res.json({
+    messages: [
+      {
+        text
+      }
+    ]
+  });
+});
+
+app.get("/howmuchamigettingpaid", async function(req, res) {
+  const timesheetInfo = await axios
+    .get(
+      `https://my.tanda.co/api/v2/timesheets/for/${employeeId}/current?show_costs=true&show_award_interpretation=true&approved_only=true`
+    )
+    // .then(response => response.data)
+    .catch(err => {
+      //silently fail like a ninja
+    });
+  debugger;
   res.json({
     messages: [
       {
