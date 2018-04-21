@@ -6,20 +6,35 @@ var app = express();
 const token =
   "b4852c73abee95c3be632ac78e2edaa71cf95d7dba41ee6a267164645fd6b630";
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-const employeeId = "570562";
 
 const employees = {
-  ["293746592843659284"]: {
-    employeeId: "",
-    employeeName: "Matt"
+  ["1674835265938287"]: {
+    id: "570246",
+    name: "Matt"
+  },
+  ["1951258034946165"]: {
+    id: "570562",
+    name: "Nims"
+  },
+  ["1956122931096013"]: {
+    id: "570562",
+    name: "Ben"
   }
+};
+
+const getEmployeeId = messengerId => {
+  const employee = employees[messengerId];
+  let employeeId;
+  if (employee) {
+    return employee.id;
+  }
+  return "570246";
 };
 
 // employees[req.params["messenger user id"]].employeeId
 
 app.get("/mynextschedule", async function(req, res) {
-  console.log(req.query);
-  console.log(req.param("messenger user id"));
+  const employeeId = getEmployeeId(req.param("messenger user id"));
   const today = moment().format("YYYY-MM-DD");
   const sevenDaysFromToday = moment()
     .add(7, "days")
@@ -48,6 +63,7 @@ app.get("/mynextschedule", async function(req, res) {
 });
 
 app.get("/myshiftsforthisweek", async function(req, res) {
+  const employeeId = getEmployeeId(req.param("messenger user id"));
   const today = moment().format("YYYY-MM-DD");
   const sevenDaysFromToday = moment()
     .add(7, "days")
@@ -86,6 +102,7 @@ app.get("/myshiftsforthisweek", async function(req, res) {
 });
 
 app.get("/howmuchamigettingpaid", async function(req, res) {
+  const employeeId = getEmployeeId(req.param("messenger user id"));
   // req.param['messenger user id'];
   const mondayThisWeek = moment()
     .isoWeekday(1)
