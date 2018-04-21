@@ -150,6 +150,17 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
       }
     });
   }
+  if (payThisWeek < 10) {
+    messages.push({
+      attachment: {
+        type: "image",
+        payload: {
+          url:
+            "https://raw.githubusercontent.com/benaitcheson/benaitcheson/master/images/tenor(1).gif"
+        }
+      }
+    });
+  }
   res.json({
     messages
   });
