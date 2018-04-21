@@ -184,11 +184,7 @@ app.get("/leavebalance", async function(req, res) {
     }
   }
   res.json({
-    messages: [
-      {
-        text
-      }
-    ]
+    messages
   });
 });
 
