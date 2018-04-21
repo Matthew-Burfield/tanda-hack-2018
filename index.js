@@ -11,6 +11,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/currentroster", async function(req, res) {
+  console.log(req.query);
   const rosterInfo = await axios
     .get("https://my.tanda.co/api/v2/rosters/current?show_costs=true")
     .then(response => response.data)
