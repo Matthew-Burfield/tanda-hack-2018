@@ -13,7 +13,7 @@ const employees = {
     name: "Matt"
   },
   ["1951258034946165"]: {
-    id: "570562",
+    id: "570736",
     name: "Nims"
   },
   ["1956122931096013"]: {
@@ -48,7 +48,7 @@ app.get("/mynextschedule", async function(req, res) {
       //silently fail like a ninja
     });
   let text;
-  if (scheduleInfo) {
+  if (scheduleInfo.length > 0) {
     const nextShiftStart = moment(scheduleInfo[0].start * 1000).utcOffset(600);
     const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utcOffset(
       600
