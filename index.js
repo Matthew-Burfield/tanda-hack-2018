@@ -138,7 +138,10 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
   ];
   if (payThisWeek > 250) {
     messages.push({
-      text: "LET IT RAIN!! 🤑🤑🤑🤑🤑🤑🤑🤑🤑"
+      text: "LET IT RAIN!!"
+    });
+    messages.push({
+      text: "🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑"
     });
     messages.push({
       attachment: {
