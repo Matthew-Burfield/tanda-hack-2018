@@ -25,9 +25,9 @@ app.get("/currentroster", async function(req, res) {
         }`
       },
       {
-        text: `There are ${rosterInfo} schedules on this roster at a cost of ${
-          rosterInfo.cost
-        }`
+        text: `There are ${
+          rosterInfo.schedules.length
+        } schedules on this roster at a cost of ${rosterInfo.cost}`
       }
     ]
   });
