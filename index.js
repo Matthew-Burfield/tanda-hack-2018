@@ -140,6 +140,33 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
   });
 });
 
+app.get("/leavebalance", async function(req, res) {
+  const employeeId = getEmployeeId(req.param("messenger user id"));
+  const leaveBalanceInfo = await axios
+    .get(`https://my.tanda.co/api/v2/leave_balances?user_ids=${employeeId}`)
+    .then(response => response.data)
+    .catch(err => {
+      //silently fail like a ninja
+    });
+  let text;
+  if (leaveBalanceInfo.length === 0) {
+    text =
+      "Mate, you're not even set up in the system yet. Get your boss to set you up!";
+  } else {
+    const balance = leaveBalanceInfo[0];
+    text = `You've got ${balance.hours} of ${balance.leave_type}${
+      balance.hours > 20 ? ", take a holiday bro!" : ""
+    }`;
+  }
+  res.json({
+    messages: [
+      {
+        text
+      }
+    ]
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function() {
