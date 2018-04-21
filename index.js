@@ -129,14 +129,29 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
   const payThisWeek = scheduleInfo.reduce((total, schedule) => {
     return total + schedule.cost;
   }, 0);
-  res.json({
-    messages: [
-      {
-        text: `Based on your rostered schedule this week, you\'re going to be paid $${Math.round(
-          payThisWeek * 100
-        ) / 100}!`
+  const messages = [
+    {
+      text: `Based on your rostered schedule this week, you\'re going to be paid $${Math.round(
+        payThisWeek * 100
+      ) / 100}!`
+    }
+  ];
+  if (payThisWeek > 250) {
+    messages.push({
+      text: "LET IT RAIN!!"
+    });
+    messages.push({
+      attachment: {
+        type: "image",
+        payload: {
+          url:
+            "https://raw.githubusercontent.com/benaitcheson/benaitcheson/master/images/tenor(9).gif"
+        }
       }
-    ]
+    });
+  }
+  res.json({
+    messages
   });
 });
 
