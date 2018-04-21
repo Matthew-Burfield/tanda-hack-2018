@@ -18,9 +18,8 @@ const employees = {
 // employees[req.params["messenger user id"]].employeeId
 
 app.get("/mynextschedule", async function(req, res) {
-  console.log("latest");
-  console.log(req.query.params["messenger user id"]);
-  console.log(req.query.params);
+  console.log(req.query);
+  console.log(req.param("messenger user id"));
   const today = moment().format("YYYY-MM-DD");
   const sevenDaysFromToday = moment()
     .add(7, "days")
