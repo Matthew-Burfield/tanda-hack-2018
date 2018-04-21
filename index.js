@@ -64,6 +64,46 @@ app.get("/mynextschedule", async function(req, res) {
   });
 });
 
+app.get("/myshiftsforthisweek", async function(req, res) {
+  const mondayThisWeek = moment()
+    .isoWeekday(1)
+    .format("YYYY-MM-DD");
+  const sundayThisWeek = moment()
+    .isoWeekday(7)
+    .format("YYYY-MM-DD");
+  const scheduleInfo = await axios
+    .get(
+      `https://my.tanda.co/api/v2/schedules?user_ids=${employeeId}&from=${mondayThisWeek}&to=${sundayThisWeek}&show_costs=true&include_names=false`
+    )
+    .then(response => response.data)
+    .catch(err => {
+      //silently fail like a ninja
+    });
+  let text = "";
+  if (scheduleInfo.length === 0) {
+    text = "Aww man, you've got no shifts this week!";
+  } else {
+    text = scheduleInfo.reduce((string, shift) => {
+      const start = moment(shift.start * 1000).utcOffset(600);
+      const finish = moment(shift.finish * 1000).utcOffset(600);
+      return (
+        string +
+        `${moment(start).format("dddd")}: ${moment(start).format(
+          "h:mma"
+        )} - ${moment(start).format("h:mma")}\n`
+      );
+    }, "Yo! Your shifts this week are:\n");
+    text = text.slice(0, -1);
+  }
+  res.json({
+    messages: [
+      {
+        text
+      }
+    ]
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function() {
