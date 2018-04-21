@@ -9,7 +9,8 @@ axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 const employees = {
   ["1674835265938287"]: {
-    id: "570246",
+    // id: "570246",
+    id: "570736",
     name: "Matt"
   },
   ["1951258034946165"]: {
@@ -140,9 +141,7 @@ app.get("/howmuchamigettingpaid", async function(req, res) {
     messages.push({
       text: "LET IT RAIN!!"
     });
-    messages.push({
-      text: "🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑💰🤑"
-    });
+    ske;
     messages.push({
       attachment: {
         type: "image",
