@@ -37,7 +37,6 @@ app.get("/", function(req, res) {
 // });
 
 app.get("/mynextschedule", async function(req, res) {
-  console.log(req.query);
   const today = moment().format("YYYY-MM-DD");
   const sevenDaysFromToday = moment()
     .add(7, "days")
@@ -50,9 +49,8 @@ app.get("/mynextschedule", async function(req, res) {
     .catch(err => {
       //silently fail like a ninja
     });
-  const nextShiftStart = moment(scheduleInfo[0].start * 1000).utc();
-  const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utc();
-  console.log(nextShiftStart.utcOffset());
+  const nextShiftStart = moment(scheduleInfo[0].start * 1000).utcOffset(600);
+  const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utcOffset(600);
   res.json({
     messages: [
       {
