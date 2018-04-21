@@ -47,16 +47,24 @@ app.get("/mynextschedule", async function(req, res) {
     .catch(err => {
       //silently fail like a ninja
     });
-  const nextShiftStart = moment(scheduleInfo[0].start * 1000).utcOffset(600);
-  const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utcOffset(600);
+  let text;
+  if (scheduleInfo) {
+    const nextShiftStart = moment(scheduleInfo[0].start * 1000).utcOffset(600);
+    const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utcOffset(
+      600
+    );
+    text = `Your next shift is on ${nextShiftStart.format(
+      "dddd"
+    )} from ${nextShiftStart.format("h:mma")} to ${nextShiftFinish.format(
+      "h:mma"
+    )}`;
+  } else {
+    text = "You aren't scheduled on for a shift bro";
+  }
   res.json({
     messages: [
       {
-        text: `Your next shift is on ${nextShiftStart.format(
-          "dddd"
-        )} from ${nextShiftStart.format("h:mma")} to ${nextShiftFinish.format(
-          "h:mma"
-        )}`
+        text
       }
     ]
   });
