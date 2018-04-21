@@ -50,8 +50,8 @@ app.get("/mynextschedule", async function(req, res) {
     .catch(err => {
       //silently fail like a ninja
     });
-  const nextShiftStart = moment(scheduleInfo[0].start * 1000);
-  const nextShiftFinish = moment(scheduleInfo[0].finish * 1000);
+  const nextShiftStart = moment(scheduleInfo[0].start * 1000).utc();
+  const nextShiftFinish = moment(scheduleInfo[0].finish * 1000).utc();
   res.json({
     messages: [
       {
