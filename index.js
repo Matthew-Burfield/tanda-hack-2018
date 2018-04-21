@@ -154,9 +154,12 @@ app.get("/leavebalance", async function(req, res) {
       "Mate, you're not even set up in the system yet. Get your boss to set you up!";
   } else {
     const balance = leaveBalanceInfo[0];
-    text = `You've got ${balance.hours} of ${balance.leave_type}${
-      balance.hours > 20 ? ", take a holiday bro!" : ""
-    }`;
+    if (balance.hours > 7.8) {
+      const days = Math.floor(balance.hours / 7.8);
+      text = `You've got ${days} days of ${balance.leave_type}${
+        days > 7 ? ", take a holiday bro!" : ""
+      }`;
+    }
   }
   res.json({
     messages: [
