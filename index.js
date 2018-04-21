@@ -65,15 +65,13 @@ app.get("/mynextschedule", async function(req, res) {
 });
 
 app.get("/myshiftsforthisweek", async function(req, res) {
-  const mondayThisWeek = moment()
-    .isoWeekday(1)
-    .format("YYYY-MM-DD");
-  const sundayThisWeek = moment()
-    .isoWeekday(7)
+  const today = moment().format("YYYY-MM-DD");
+  const sevenDaysFromToday = moment()
+    .add(7, "days")
     .format("YYYY-MM-DD");
   const scheduleInfo = await axios
     .get(
-      `https://my.tanda.co/api/v2/schedules?user_ids=${employeeId}&from=${mondayThisWeek}&to=${sundayThisWeek}&show_costs=true&include_names=false`
+      `https://my.tanda.co/api/v2/schedules?user_ids=${employeeId}&from=${today}&to=${sevenDaysFromToday}&show_costs=true&include_names=false`
     )
     .then(response => response.data)
     .catch(err => {
